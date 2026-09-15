@@ -1,0 +1,5 @@
+﻿{
+  "nome": "Sistema de Gestão da APS",
+  "descricao": "Sistema para gerenciamento da Atenção Primária à Saúde",
+  "tecnologia": "Java e Spring Boot"
+}

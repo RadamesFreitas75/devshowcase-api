@@ -1,0 +1,7 @@
+{
+  "nome": "DevShowcase API",
+  "descricao": "API para apresentação de projetos de desenvolvedores",
+  "tecnologia": "Java e Spring Boot",
+  "profileId": 1,
+  "technologyIds": [1, 2]
+}
