@@ -5,8 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 import java.util.ArrayList;
@@ -22,6 +22,10 @@ public class Project {
     private String nome;
     private String descricao;
     private String tecnologia;
+
+    private Double notaMedia = 0.0;
+
+    private Integer upvotes = 0;
 
     @ManyToOne
     @JoinColumn(name = "profile_id")
@@ -68,6 +72,22 @@ public class Project {
         this.tecnologia = tecnologia;
     }
 
+    public Double getNotaMedia() {
+        return notaMedia;
+    }
+
+    public void setNotaMedia(Double notaMedia) {
+        this.notaMedia = notaMedia;
+    }
+
+    public Integer getUpvotes() {
+        return upvotes;
+    }
+
+    public void setUpvotes(Integer upvotes) {
+        this.upvotes = upvotes;
+    }
+
     public Profile getProfile() {
         return profile;
     }
@@ -77,18 +97,18 @@ public class Project {
     }
 
     public List<Technology> getTechnologies() {
-    return technologies;
+        return technologies;
     }
 
     public void setTechnologies(List<Technology> technologies) {
-    this.technologies = technologies;
+        this.technologies = technologies;
     }
 
     public List<Feedback> getFeedbacks() {
-    return feedbacks;
+        return feedbacks;
     }
 
     public void setFeedbacks(List<Feedback> feedbacks) {
-    this.feedbacks = feedbacks;
-    }  
+        this.feedbacks = feedbacks;
+    }
 }
