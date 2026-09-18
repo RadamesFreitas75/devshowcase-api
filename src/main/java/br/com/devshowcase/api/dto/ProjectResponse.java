@@ -10,6 +10,8 @@ public class ProjectResponse {
     private String tecnologia;
     private Long profileId;
     private List<Long> technologyIds;
+    private Double notaMedia;
+    private Integer upvotes;
 
     public ProjectResponse() {
     }
@@ -20,7 +22,9 @@ public class ProjectResponse {
             String descricao,
             String tecnologia,
             Long profileId,
-            List<Long> technologyIds) {
+            List<Long> technologyIds,
+            Double notaMedia,
+            Integer upvotes) {
 
         this.id = id;
         this.nome = nome;
@@ -28,6 +32,8 @@ public class ProjectResponse {
         this.tecnologia = tecnologia;
         this.profileId = profileId;
         this.technologyIds = technologyIds;
+        this.notaMedia = notaMedia;
+        this.upvotes = upvotes;
     }
 
     public Long getId() {
@@ -52,5 +58,13 @@ public class ProjectResponse {
 
     public List<Long> getTechnologyIds() {
         return technologyIds;
+    }
+
+    public Double getNotaMedia() {
+        return notaMedia;
+    }
+
+    public Integer getUpvotes() {
+        return upvotes;
     }
 }

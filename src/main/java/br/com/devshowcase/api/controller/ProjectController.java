@@ -1,13 +1,17 @@
 package br.com.devshowcase.api.controller;
 
+import br.com.devshowcase.api.dto.FeedbackRequest;
+import br.com.devshowcase.api.dto.FeedbackResponse;
 import br.com.devshowcase.api.dto.ProjectRequest;
 import br.com.devshowcase.api.dto.ProjectResponse;
+import br.com.devshowcase.api.model.Feedback;
 import br.com.devshowcase.api.model.Project;
 import br.com.devshowcase.api.model.Profile;
 import br.com.devshowcase.api.model.Technology;
 import br.com.devshowcase.api.repository.ProjectRepository;
 import br.com.devshowcase.api.repository.ProfileRepository;
 import br.com.devshowcase.api.repository.TechnologyRepository;
+import br.com.devshowcase.api.service.ProjectService;
 
 import jakarta.validation.Valid;
 
@@ -23,15 +27,18 @@ public class ProjectController {
     private final ProjectRepository projectRepository;
     private final ProfileRepository profileRepository;
     private final TechnologyRepository technologyRepository;
+    private final ProjectService projectService;
 
     public ProjectController(
             ProjectRepository projectRepository,
             ProfileRepository profileRepository,
-            TechnologyRepository technologyRepository) {
+            TechnologyRepository technologyRepository,
+            ProjectService projectService) {
 
         this.projectRepository = projectRepository;
         this.profileRepository = profileRepository;
         this.technologyRepository = technologyRepository;
+        this.projectService = projectService;
     }
 
     @PostMapping
@@ -73,6 +80,47 @@ public class ProjectController {
                 .toList();
     }
 
+    @GetMapping("/{id}/feedbacks")
+    public List<FeedbackResponse> listarFeedbacks(
+            @PathVariable Long id) {
+
+        return projectService.listarFeedbacks(id)
+                .stream()
+                .map(feedback -> new FeedbackResponse(
+                        feedback.getId(),
+                        feedback.getNota(),
+                        feedback.getComentario()
+                ))
+                .toList();
+    }
+
+    @PostMapping("/{id}/feedbacks")
+    @ResponseStatus(HttpStatus.CREATED)
+    public FeedbackResponse cadastrarFeedback(
+            @PathVariable Long id,
+            @Valid @RequestBody FeedbackRequest request) {
+
+        Feedback feedback = projectService.adicionarFeedback(
+                id,
+                request.getNota(),
+                request.getComentario()
+        );
+
+        return new FeedbackResponse(
+                feedback.getId(),
+                feedback.getNota(),
+                feedback.getComentario()
+        );
+    }
+
+    @PostMapping("/{id}/upvote")
+    public ProjectResponse adicionarUpvote(@PathVariable Long id) {
+
+        Project project = projectService.adicionarUpvote(id);
+
+        return toResponse(project);
+    }
+
     private ProjectResponse toResponse(Project project) {
 
         List<Long> technologyIds = project.getTechnologies()
@@ -90,7 +138,9 @@ public class ProjectController {
                 project.getDescricao(),
                 project.getTecnologia(),
                 profileId,
-                technologyIds
+                technologyIds,
+                project.getNotaMedia(),
+                project.getUpvotes()
         );
     }
 }
