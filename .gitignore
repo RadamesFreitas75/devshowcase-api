@@ -1,8 +1,20 @@
 HELP.md
+
+# Maven
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+# Arquivos de ambiente e credenciais
+.env
+.env.*
+!.env.example
+
+# Configurações locais
+application-local.properties
+application-dev.properties
+application-prod-local.properties
 
 ### STS ###
 .apt_generated

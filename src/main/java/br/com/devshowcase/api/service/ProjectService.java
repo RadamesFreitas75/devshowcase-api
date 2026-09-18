@@ -6,6 +6,8 @@ import br.com.devshowcase.api.model.Project;
 import br.com.devshowcase.api.repository.FeedbackRepository;
 import br.com.devshowcase.api.repository.ProjectRepository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -84,6 +86,21 @@ public class ProjectService {
 
     public List<Project> listarProjetos() {
         return projectRepository.findAll();
+    }
+
+    public Page<Project> listarProjetos(
+            String tecnologia,
+            Pageable pageable) {
+
+        if (tecnologia == null || tecnologia.isBlank()) {
+            return projectRepository.findAll(pageable);
+        }
+
+        return projectRepository
+                .findByTecnologiaContainingIgnoreCase(
+                        tecnologia,
+                        pageable
+                );
     }
 
     public List<Feedback> listarFeedbacks(Long projectId) {

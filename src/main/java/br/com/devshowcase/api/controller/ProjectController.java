@@ -15,6 +15,9 @@ import br.com.devshowcase.api.service.ProjectService;
 
 import jakarta.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,12 +75,13 @@ public class ProjectController {
     }
 
     @GetMapping
-    public List<ProjectResponse> listar() {
+    public Page<ProjectResponse> listar(
+            @RequestParam(required = false) String technology,
+            @PageableDefault(size = 5) Pageable pageable) {
 
-        return projectRepository.findAll()
-                .stream()
-                .map(this::toResponse)
-                .toList();
+        return projectService
+                .listarProjetos(technology, pageable)
+                .map(this::toResponse);
     }
 
     @GetMapping("/{id}/feedbacks")
@@ -113,7 +117,7 @@ public class ProjectController {
         );
     }
 
-    @PostMapping("/{id}/upvote")
+    @PutMapping("/{id}/upvote")
     public ProjectResponse adicionarUpvote(@PathVariable Long id) {
 
         Project project = projectService.adicionarUpvote(id);
