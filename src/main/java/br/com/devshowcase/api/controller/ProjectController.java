@@ -15,9 +15,9 @@ import br.com.devshowcase.api.service.ProjectService;
 
 import jakarta.validation.Valid;
 
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,7 +77,7 @@ public class ProjectController {
     @GetMapping
     public Page<ProjectResponse> listar(
             @RequestParam(required = false) String technology,
-            @PageableDefault(size = 5, sort = "id") Pageable pageable) {
+            @ParameterObject Pageable pageable) {
 
         return projectService
                 .listarProjetos(technology, pageable)
@@ -148,3 +148,5 @@ public class ProjectController {
         );
     }
 }
+
+
