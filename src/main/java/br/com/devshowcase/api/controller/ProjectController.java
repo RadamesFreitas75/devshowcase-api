@@ -77,7 +77,7 @@ public class ProjectController {
     @GetMapping
     public Page<ProjectResponse> listar(
             @RequestParam(required = false) String technology,
-            @PageableDefault(size = 5) Pageable pageable) {
+            @PageableDefault(size = 5, sort = "id") Pageable pageable) {
 
         return projectService
                 .listarProjetos(technology, pageable)
